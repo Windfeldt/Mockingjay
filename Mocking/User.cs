@@ -37,6 +37,8 @@ namespace Mocking
             set{username = value;}
         }
 
+        public int NumMessagesCreated { get; internal set; }
+
         public void Login(User user)
         {
             throw new NotImplementedException();

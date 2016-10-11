@@ -140,13 +140,29 @@ namespace Mocking
             Assert.AreEqual(1, e.MailBox.NumReceivedMessages);
             Assert.AreEqual("Hello " + e.Name + " Your paycheck is wrong!", e.MailBox.GetLatestMessageText());
         }
-        /*
+        
         [TestMethod]
         public void CanCalulateAverageWeeklySaleryPerEmployee()
         {
             //implement your own logic
             //use mocks
-            throw new NotImplementedException();
+            const int HOURS = 42;
+
+            var mock = new Mock<IEmployeeRepository>();
+            mock.Setup(m => m.FindAllEmployees()).Returns(()=> new List<Employee> { new Employee() { Id = 1, Name = "Hans", Type = "Teacher", Wage = 1000 },
+                    new Employee() { Id = 2, Name = "Tove", Type = "Teacher", Wage = 750 },
+                        new Employee() { Id = 3, Name = "Lene", Type = "Teacher", Wage = 500 } });
+            double expectedResult = ((1000 * 42) + (750 * 42) + (500 * 42))/3;
+            double AverageWeeklySalary = 0.0d;
+            //Act
+            List<Employee> employees = mock.Object.FindAllEmployees();
+            foreach (var e in employees)
+            {
+                AverageWeeklySalary += e.CalculateAverageWeeklySalary(HOURS, e.Wage);
+            }
+
+            //Assert
+            Assert.AreEqual(expectedResult, AverageWeeklySalary);
         }
 
 
@@ -169,6 +185,7 @@ namespace Mocking
             //Assert
             Assert.AreEqual(1, admin.NumMessagesCreated);
         }
+        /*
         [TestMethod]
         public void DoYourOwnLogic1()
         {
